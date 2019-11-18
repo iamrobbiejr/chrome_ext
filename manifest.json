@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Fau's Extension",
+    "version": "1.1",
+    "description":"propagandawarning",
+
+
+  "content_scripts": [{
+      "matches": [
+        "https://.dailynews.co.zw/*","http://*/*.dailynews.co.zw/*","https://*/*.newsday.co.zw/*","http://*/*.newsday.co.zw/*","https://.herald.co.zw/*","http://.herald.co.zw/*"
+        
+      ],
+      "all_frames": true,
+      "js": ["popup.js"]
+    }],
+
+
+"browser_action": {
+  "default_icon": "favicon.png",
+    "default_popup": "popup.html",
+    "default_title": "FauPop"
+  },
+
+
+"background": {
+    "scripts": ["background.js"]
+  },
+
+
+  "permissions":[
+    "activeTab","declarativeContent"
+  ]
+  
+}
