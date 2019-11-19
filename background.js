@@ -1,17 +1,32 @@
+function openOrFocusOptionsPage() {
+  var optionsUrl = chrome.extension.getURL('popup.html'); 
+  chrome.tabs.query({}, function(extensionTabs) {
+      var found = false;
+      for(var i=0; i < extensionTabs.length; i++) {
+          if(optionsUrl == extensionTabs[i].url) {
+              found = true;
+              chrome.tabs.update(extensionTabs[i].id, {"selected": true});
+          }
+      }
+      if(found == false) {
+          chrome.tabs.create({url: "popup.html"});
+      }
+  });
+}
 
-chrome.browserAction.onClicked.addListener(function(tab) {
-  chrome.debugger.attach({tabId:popup.html}, version,
-      onAttach.bind(null, popup.html));
+chrome.extension.onConnect.addListener(function(port) {
+  var tab = port.sender.tab;
+
+
+  port.onMessage.addListener(function(info) {
+      var max_length = 1024;
+      if(info.selection.length > max_length)
+          info.selection = info.selection.substring(0, max_length);
+      openOrFocusOptionsPage();
+  });
 });
 
-var version = "1.0";
 
-function onAttach(Propagandawarning) {
-  if (chrome.runtime.lastError) {
-    alert(chrome.runtime.lastError.message);
-    return;
-  }
-
-  chrome.windows.create(
-      {url: "popup.html?" + tabId, type: "popup", width: 800, height: 600});
-}
+chrome.browserAction.onClicked.addListener(function(tab) {
+  openOrFocusOptionsPage();
+});

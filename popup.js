@@ -5,5 +5,5 @@
         innerHTML="Propaganda";
 
         if (popup != -1){
-            document.write (Propaganda);}
+            document.write ("Propaganda");}
     }
